@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * UpmsUserService实现
-* Created by shuzheng on 2019/4/6.
+* 2019/4/7
 */
 @Service
 @Transactional
@@ -26,4 +26,16 @@ public class UpmsUserServiceImpl extends BaseServiceImpl<UpmsUserMapper, UpmsUse
     @Autowired
     UpmsUserMapper upmsUserMapper;
 
+    @Override
+    public UpmsUser createUser(UpmsUser upmsUser) {
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria()
+                .andUsernameEqualTo(upmsUser.getUsername());
+        long count = upmsUserMapper.countByExample(upmsUserExample);
+        if (count > 0) {
+            return null;
+        }
+        upmsUserMapper.insert(upmsUser);
+        return upmsUser;
+    }
 }

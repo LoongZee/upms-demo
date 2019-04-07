@@ -6,8 +6,15 @@ import com.loongzee.upms.dao.model.UpmsUserRoleExample;
 
 /**
 * UpmsUserRoleService接口
-* Created by shuzheng on 2019/4/6.
+* 2019/4/7
 */
 public interface UpmsUserRoleService extends BaseService<UpmsUserRole, UpmsUserRoleExample> {
+    /**
+     * 用户角色
+     * @param roleIds 角色ids
+     * @param id 用户id
+     * @return
+     */
+    int role(String[] roleIds, int id);
 
 }

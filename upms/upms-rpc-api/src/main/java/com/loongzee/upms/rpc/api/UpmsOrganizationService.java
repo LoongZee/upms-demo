@@ -6,7 +6,7 @@ import com.loongzee.upms.dao.model.UpmsOrganizationExample;
 
 /**
 * UpmsOrganizationService接口
-* Created by shuzheng on 2019/4/6.
+* 2019/4/7
 */
 public interface UpmsOrganizationService extends BaseService<UpmsOrganization, UpmsOrganizationExample> {
 

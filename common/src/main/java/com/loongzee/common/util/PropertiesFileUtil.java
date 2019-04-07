@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 /**
  * @program: upms-demo
- * @description: 属性文件读取
+ * @description: 属性文件(.properties)读取，采用hashmap进行存储，当距离上次时间大于一分钟，重新读取
  * @author: Loongzee
  * @create: 2019-04-06 19:28
  */

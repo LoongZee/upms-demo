@@ -54,13 +54,15 @@ public class SerializablePlugin extends PluginAdapter {
 
     protected void makeSerializable(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         if(this.addGWTInterface) {
-            topLevelClass.addImportedType(this.gwtSerializable);
-            topLevelClass.addSuperInterface(this.gwtSerializable);
+            topLevelClass.addImportedType(this.gwtSerializable);  //import com.google.gwt.user.client.rpc.IsSerializable;
+            topLevelClass.addSuperInterface(this.gwtSerializable);  //实现接口
         }
 
         if(!this.suppressJavaInterface) {
-            topLevelClass.addImportedType(this.serializable);
-            topLevelClass.addSuperInterface(this.serializable);
+            topLevelClass.addImportedType(this.serializable);   //import java.io.Serializable
+            topLevelClass.addSuperInterface(this.serializable); //实现java.io.Serializable接口
+            //添加serialVersionUID字段
+            //最终生成代码private static final long serialVersionUID = 1L;
             Field field = new Field();
             field.setFinal(true);
             field.setInitializationString("1L");
@@ -82,8 +84,9 @@ public class SerializablePlugin extends PluginAdapter {
      */
     @Override
     public boolean modelExampleClassGenerated(TopLevelClass topLevelClass,IntrospectedTable introspectedTable){
+        //对modelExample添加序列化方法
         makeSerializable(topLevelClass, introspectedTable);
-
+        //对modelExample的内部类添加序列化方法
         for (InnerClass innerClass : topLevelClass.getInnerClasses()) {
             if ("GeneratedCriteria".equals(innerClass.getType().getShortName())) {
                 innerClass.addSuperInterface(serializable);

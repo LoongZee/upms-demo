@@ -6,8 +6,14 @@ import com.loongzee.upms.dao.model.UpmsSystemExample;
 
 /**
 * UpmsSystemService接口
-* Created by shuzheng on 2019/4/6.
+* 2019/4/7
 */
 public interface UpmsSystemService extends BaseService<UpmsSystem, UpmsSystemExample> {
+    /**
+     * 根据name获取UpmsSystem
+     * @param name
+     * @return
+     */
+    UpmsSystem selectUpmsSystemByName(String name);
 
 }

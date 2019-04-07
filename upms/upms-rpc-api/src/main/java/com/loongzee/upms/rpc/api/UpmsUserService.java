@@ -6,8 +6,10 @@ import com.loongzee.upms.dao.model.UpmsUserExample;
 
 /**
 * UpmsUserService接口
-* Created by shuzheng on 2019/4/6.
+* 2019/4/7
 */
 public interface UpmsUserService extends BaseService<UpmsUser, UpmsUserExample> {
+
+    UpmsUser createUser(UpmsUser upmsUser);
 
 }

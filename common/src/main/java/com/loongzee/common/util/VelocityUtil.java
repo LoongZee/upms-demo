@@ -27,12 +27,15 @@ public class VelocityUtil {
     public static void generate(String inputVmFilePath, String outputFilePath, VelocityContext context) throws Exception {
         try {
             Properties properties = new Properties();
+            //设置模版文件的路径
             properties.setProperty(VelocityEngine.FILE_RESOURCE_LOADER_PATH, getPath(inputVmFilePath));
             Velocity.init(properties);
             //VelocityEngine engine = new VelocityEngine();
+            //获得对应模版文件的名字
             Template template = Velocity.getTemplate(getFile(inputVmFilePath), "utf-8");
             File outputFile = new File(outputFilePath);
             FileWriterWithEncoding writer = new FileWriterWithEncoding(outputFile, "utf-8");
+            //写出到文件中
             template.merge(context, writer);
             writer.close();
         } catch (Exception ex) {

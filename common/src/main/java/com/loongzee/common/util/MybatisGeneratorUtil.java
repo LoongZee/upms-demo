@@ -16,6 +16,10 @@ import static com.loongzee.common.util.StringUtil.lineToHump;
 /**
  * @program: upms-demo
  * @description: Mybatis代码生成类
+ *              1.利用Velocity生成generatorConfig.xml配置文件
+ *              2.利用MyBatisGenerator生成upms-dao中的mapper与model(mapper接口类和entity)
+ *                  以及upms-rpc-service中的对应的xml文件
+ *
  * @author: Loongzee
  * @create: 2019-04-06 20:01
  */
@@ -52,7 +56,7 @@ public class MybatisGeneratorUtil {
             Map<String, String> lastInsertIdTables) throws Exception{
 
         String os = System.getProperty("os.name");
-        //得到dao的目录
+        //得到dao的目录()
         String targetProject = module + "/" + module + "-dao";
         //得到upms-demo的目录
         String basePath = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "").replace(targetProject, "");
@@ -69,7 +73,7 @@ public class MybatisGeneratorUtil {
             serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath();
             serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath();
         }
-
+        //设置generatorConfig.xml的存储路径
         String generatorConfigXml = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "") + "/src/main/resources/generatorConfig.xml";
         targetProject = basePath + targetProject;
         String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + tablePrefix + "_%';";
@@ -77,16 +81,18 @@ public class MybatisGeneratorUtil {
         System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
         List<Map<String, Object>> tables = new ArrayList<>();
         try {
+            //使用Velocity 模板引擎
             VelocityContext context = new VelocityContext();
             Map<String, Object> table;
 
-            // 查询定制前缀项目的所有表
+            // 查询定制前缀项目的所有表，在FROM INFORMATION_SCHEMA.TABLES中查询所有带upms前缀的表名
             JdbcUtil jdbcUtil = new JdbcUtil(jdbcDriver, jdbcUrl, jdbcUsername, AESUtil.aesDecode(jdbcPassword));
             List<Map> result = jdbcUtil.selectByParams(sql, null);
             for (Map map : result) {
                 System.out.println(map.get("TABLE_NAME"));
                 table = new HashMap<>(2);
                 table.put("table_name", map.get("TABLE_NAME"));
+                //将TABLE_NAME的值下划线转驼峰
                 table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
                 tables.add(table);
             }
@@ -113,10 +119,13 @@ public class MybatisGeneratorUtil {
 
         System.out.println("========== 开始运行MybatisGenerator ==========");
         List<String> warnings = new ArrayList<>();
+        //读取生成的generatorConfig.xml
         File configFile = new File(generatorConfigXml);
+        //解析生成的generatorConfig.xml文件
         ConfigurationParser cp = new ConfigurationParser(warnings);
         Configuration config = cp.parseConfiguration(configFile);
         DefaultShellCallback callback = new DefaultShellCallback(true);
+        //利用MyBatisGenerator生成mapper接口类和entity
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
         myBatisGenerator.generate(null);
         for (String warning : warnings) {

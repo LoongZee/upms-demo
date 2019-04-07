@@ -7,8 +7,13 @@ import com.loongzee.upms.dao.model.UpmsSystemExample;
 
 /**
 * 降级实现UpmsSystemService接口
-* Created by shuzheng on 2019/4/6.
+* 2019/4/7
 */
 public class UpmsSystemServiceMock extends BaseServiceMock<UpmsSystemMapper, UpmsSystem, UpmsSystemExample> implements UpmsSystemService {
+
+    @Override
+    public UpmsSystem selectUpmsSystemByName(String name) {
+        return null;
+    }
 
 }

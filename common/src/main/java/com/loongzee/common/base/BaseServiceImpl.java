@@ -430,6 +430,10 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
      * @return
      */
     public Class<Mapper> getMapperClass() {
+        //getClass().getGenericSuperclass()
+        //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type，然后将其转换ParameterizedType
+        //getActualTypeArguments()
+        //返回表示此类型实际类型参数的 Type 对象的数组
         return (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }
