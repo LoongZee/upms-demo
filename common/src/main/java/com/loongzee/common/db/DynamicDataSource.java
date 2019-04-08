@@ -14,6 +14,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(DynamicDataSource.class);
 
+    //利用ThreadLocal获取当前线程中保存的变量副本
     private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
 
     @Override
