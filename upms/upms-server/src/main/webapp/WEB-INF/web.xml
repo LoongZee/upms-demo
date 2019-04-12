@@ -76,22 +76,19 @@
     </filter-mapping>
 
     <!-- druid监控 -->
-    <!--<servlet>-->
-        <!--<servlet-name>DruidStatView</servlet-name>-->
-        <!--<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>-->
-        <!--<init-param>-->
-            <!--<param-name>loginUsername</param-name>-->
-            <!--<param-value>admin</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>loginPassword</param-name>-->
-            <!--<param-value>123456</param-value>-->
-        <!--</init-param>-->
-    <!--</servlet>-->
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>DruidStatView</servlet-name>-->
-        <!--<url-pattern>/druid/*</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+        <!-- 远程访问JavaSE项目使用jmx连接 -->
+        <init-param>
+            <param-name>jmxUrl</param-name>
+            <param-value>service:jmx:rmi:///jndi/rmi://localhost:9999/jmxrmi</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
 
 
     <!-- 欢迎页面 -->

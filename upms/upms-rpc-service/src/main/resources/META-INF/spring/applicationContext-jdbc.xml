@@ -42,6 +42,12 @@
         <property name="testOnReturn" value="false"/>
         <!-- 配置监控统计拦截的filters -->
         <property name="filters" value="stat"/>
+
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
     </bean>
 
     <!-- 配置从库数据源 -->
@@ -68,6 +74,19 @@
         <property name="testOnReturn" value="false"/>
         <!-- 配置监控统计拦截的filters -->
         <property name="filters" value="stat"/>
+
+        <property name="proxyFilters">
+            <list>
+                <ref bean="stat-filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 慢SQL记录 -->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!-- 慢sql时间设置,即执行时间大于200毫秒的都是慢sql -->
+        <property name="slowSqlMillis" value="5"/>
+        <property name="logSlowSql" value="true"/>
     </bean>
 
     <!-- 动态数据源 -->

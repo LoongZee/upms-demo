@@ -9,6 +9,7 @@ package com.loongzee.upms.rpc;
 public class UmpsRpcMain {
 
     public static void main(String[] args) {
+        args = new String[] {"spring", "myjetty"};
         com.alibaba.dubbo.container.Main.main(args);
     }
 }
