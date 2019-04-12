@@ -4,6 +4,11 @@
 # Log file
 *.log
 
+.DS_Store
+*.cache
+*.lock
+
+
 # BlueJ files
 *.ctxt
 
@@ -11,6 +16,8 @@
 .mtj.tmp/
 .idea/
 target/
+zheng-admin/
+logs/
 
 # Package Files #
 *.jar

@@ -6,14 +6,13 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!-- 引入jdbc配置文件(已在pom中添加)-->
+    <!-- 引入jdbc配置文件-->
     <!--<context:property-placeholder location="classpath:jdbc.properties" />-->
     <!-- 配置进行解密  -->
     <bean id="propertyConfigurer" class="com.loongzee.common.plugin.EncryptPropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:jdbc.properties</value>
-                <value>classpath:redis.properties</value>
             </list>
         </property>
     </bean>
@@ -88,12 +87,11 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <property name="mapperLocations" value="classpath*:com/loongzee/upms/dao/mapper/*Mapper.xml,
-                                                classpath*:com/loongzee/upms/rpc/mapper/*Mapper.xml"/>
+        <property name="mapperLocations" value="classpath*:com/loongzee/upms/dao/mapper/*Mapper.xml,classpath*:com/loongzee/upms/rpc/mapper/*Mapper.xml"/>
     </bean>
     <!-- Mapper接口所在包名，Spring会自动查找其下的Mapper -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="**.dao.mapper, **.rpc.mapper"/>
+        <property name="basePackage" value="**.dao.mapper,**.rpc.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 

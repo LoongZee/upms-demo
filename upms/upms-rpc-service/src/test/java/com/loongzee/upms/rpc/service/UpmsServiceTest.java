@@ -3,6 +3,7 @@ package com.loongzee.upms.rpc.service;
 import com.loongzee.upms.dao.mapper.UpmsUserMapper;
 import com.loongzee.upms.dao.model.UpmsPermission;
 import com.loongzee.upms.dao.model.UpmsPermissionExample;
+import com.loongzee.upms.dao.model.UpmsSystem;
 import com.loongzee.upms.dao.model.UpmsUser;
 import com.loongzee.upms.rpc.api.UpmsApiService;
 import com.loongzee.upms.rpc.api.UpmsPermissionService;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:META-INF/spring/applicationContext.xml",
+@ContextConfiguration({"classpath:applicationContext-test.xml",
         "classpath:META-INF/spring/applicationContext-jdbc.xml",
         "classpath:META-INF/spring/applicationContext-listener.xml"})
 @Rollback(value=false)
@@ -46,9 +47,15 @@ public class UpmsServiceTest {
     private UpmsApiService upmsApiService;
 
     @Test
-    public void Textapi(){
+    public void testApi(){
         List<UpmsPermission> res = upmsApiService.selectUpmsPermissionByUpmsUserId(1);
         System.out.println(res.size());
+    }
+
+    @Test
+    public void testUpmsSystem(){
+        UpmsSystem res = upmsSystemService.selectUpmsSystemByName("upms-server");
+        System.out.println(res);
     }
 
 

@@ -23,7 +23,6 @@ public class ApplicationContextListener implements ApplicationListener<ContextRe
 
     //容器初始化完毕之后
     // 1 通过反射调用所有使用BaseService注解的initMapper方法
-    // 2
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         // root application context
