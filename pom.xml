@@ -11,6 +11,7 @@
         <module>common</module>
         <module>upms</module>
         <module>admin</module>
+        <module>cms</module>
     </modules>
 
     <packaging>pom</packaging>
