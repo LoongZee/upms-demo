@@ -15,6 +15,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -129,7 +130,7 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
             // HttpPost去校验code
             try {
                 StringBuffer ssoServerUrl = new StringBuffer(PropertiesFileUtil.getInstance("upms-client").get("upms.sso.server.url"));
-                HttpClient httpclient = new DefaultHttpClient();
+                HttpClient httpclient = HttpClientBuilder.create().build();
                 HttpPost httpPost = new HttpPost(ssoServerUrl.toString() + "/sso/code");
 
                 List<NameValuePair> nameValuePairs = new ArrayList<>();
