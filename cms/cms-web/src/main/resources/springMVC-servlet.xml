@@ -20,6 +20,7 @@
     <!-- thymeleaf视图 -->
     <bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
         <property name="order" value="0"/>
+        <!-- 静态资源采用ngnix进行调配  -->
         <property name="prefix" value="${ui.path}"/>
         <property name="suffix" value=""/>
         <property name="templateMode" value="HTML"/>
@@ -37,6 +38,7 @@
     <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
         <property name="templateEngine" ref="templateEngine"/>
         <property name="characterEncoding" value="UTF-8"/>
+        <!--允许定义视图名称(可通过通配符)，定义内的视图由视图解析器解析-->
         <property name="viewNames" value="/${app.name}/*"/>
     </bean>
 
