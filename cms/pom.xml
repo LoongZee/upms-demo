@@ -16,6 +16,8 @@
         <module>cms-dao</module>
         <module>cms-rpc-service</module>
         <module>cms-rpc-api</module>
+        <module>cms-web</module>
+        <module>cms-admin</module>
     </modules>
 
 </project>

@@ -5,6 +5,4 @@
 
     <!-- 启动解压admin-x.x.x.jar到resources目录 -->
     <bean id="adminUtil" class="com.loongzee.common.util.AdminUtil"/>
-
-
 </beans>

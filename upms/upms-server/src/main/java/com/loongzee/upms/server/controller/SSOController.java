@@ -161,8 +161,7 @@ public class SSOController extends BaseController {
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");
         if (StringUtils.isBlank(backurl)) {
-            String a = PropertiesFileUtil.getInstance().get("app.name");
-            UpmsSystem upmsSystem = upmsSystemService.selectUpmsSystemByName(a);
+            UpmsSystem upmsSystem = upmsSystemService.selectUpmsSystemByName(PropertiesFileUtil.getInstance().get("app.name"));
             backurl = null == upmsSystem ? "/" : upmsSystem.getBasepath();
             return new UpmsResult(UpmsResultConstant.SUCCESS, backurl);
         } else {
