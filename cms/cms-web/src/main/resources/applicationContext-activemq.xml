@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath*:config.properties"/>
+
+    <!-- 连接工厂 -->
+    <bean id="activeMqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${ActiveMQ.brokerURL}"/>
+        <property name="useAsyncSend" value="true"/>
+    </bean>
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMqConnectionFactory"/>
+        <property name="sessionCacheSize" value="100"/>
+    </bean>
+
+    <!-- 点对点队列 -->
+    <bean id="defaultQueueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- 设置发送消息的主题名字 -->
+        <constructor-arg index="0" value="com.loongzee.cms.admin.queue.default"/>
+    </bean>
+    <!-- 一对多队列 -->
+    <!--<bean id="defaultTopicDestination" class="org.apache.activemq.command.ActiveMQTopic">-->
+        <!--&lt;!&ndash; 设置发送消息的主题名字 &ndash;&gt;-->
+        <!--<constructor-arg index="0" value="com.loongzee.cms.admin.topic.default"/>-->
+    <!--</bean>-->
+
+    <!-- 配置JMS模版 生产者 -->
+    <bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--此消费通道是否为Topic，默认为“false” -->
+        <property name="pubSubDomain" value="false"/>
+    </bean>
+
+    <bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="pubSubDomain" value="true"/>
+    </bean>
+
+    <!-- 消费者 -->
+    <bean id="defaultMessageQueueListener" class="com.loongzee.cms.web.jms.DefaultMessageQueueListener"/>
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="defaultQueueDestination"/>
+        <property name="messageListener" ref="defaultMessageQueueListener"/>
+        <!-- 如果抛异常是可以rollback重新放回队列，重新处理 -->
+        <property name="sessionTransacted" value="true"/>
+        <!--<property name="concurrency" value="4-10"/>-->
+    </bean>
+
+
+</beans>
